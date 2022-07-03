@@ -15,10 +15,10 @@ function db_conn(){
 
         //localhost以外＊＊自分で書き直してください！！＊＊
         if($_SERVER["HTTP_HOST"] != 'localhost'){
-            $db_name = "";  //データベース名
-            $db_id   = "";  //アカウント名（さくらコントロールパネルに表示されています）
-            $db_pw   = "";  //パスワード(さくらサーバー最初にDB作成する際に設定したパスワード)
-            $db_host = "localhost"; //例）mysql**db.ne.jp...
+            $db_name = "tionbsm_gs_db";  //データベース名
+            $db_id   = "tionbsm";  //アカウント名（さくらコントロールパネルに表示されています）
+            $db_pw   = "******";  //パスワード(さくらサーバー最初にDB作成する際に設定したパスワード)
+            $db_host = "mysql57.tionbsm.sakura.ne.jp"; //例）mysql**db.ne.jp...
         }
         return new PDO('mysql:dbname='.$db_name.';charset=utf8;host='.$db_host, $db_id, $db_pw);
     } catch (PDOException $e) {
@@ -38,3 +38,13 @@ function redirect($file_name) {
     header("Location: ".$file_name); //Locationのところには半角スペースを入れる事
     exit();
 }
+
+//SessionCheck(スケルトン)
+function sschk(){
+    if ( $_SESSION["chk_ssid"] != session_id() ){
+      exit("Login Error");
+    }else{
+      session_regenerate_id(true); //ダメだったらまたid作ってね
+      $_SESSION["chk_ssid"] = session_id();
+    }
+  }
